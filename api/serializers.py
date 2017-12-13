@@ -18,11 +18,14 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    client = ClientSerializer()
+
     class Meta:
         model = models.Project
         fields = (
             'id',
             'url',
+            'client',
             'project_name',
             'project_number',
             'start_date',
