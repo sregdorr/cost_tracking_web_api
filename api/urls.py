@@ -10,5 +10,6 @@ router.register(r'projects', views.ProjectViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
+    url(r'schema/$', views.schema_view),
     url(r'^api_auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
