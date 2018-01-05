@@ -3,6 +3,11 @@ from api import models
 
 
 class ClientSerializer(serializers.ModelSerializer):
+    projects = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='project-detail'
+    )
 
     class Meta:
         model = models.Client
@@ -14,12 +19,21 @@ class ClientSerializer(serializers.ModelSerializer):
             'phone',
             'email',
             'created_date',
+            'projects',
+        )
+
+
+class ClientNestedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Client
+        fields = (
+            'id',
+            'url',
+            'client_name',
         )
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    client = ClientSerializer()
-
     class Meta:
         model = models.Project
         fields = (
@@ -32,3 +46,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'end_date',
             'created_date',
         )
+
+
+class ProjectReadSerializer(ProjectSerializer):
+    client = ClientNestedSerializer(read_only=True)
